@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "shardsredis",
+      "type": "com.jt.config.ShardsRedisConfig",
+      "sourceType": "com.jt.config.ShardsRedisConfig"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
