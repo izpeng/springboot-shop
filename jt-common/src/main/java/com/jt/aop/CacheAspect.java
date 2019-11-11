@@ -13,13 +13,16 @@ import com.jt.util.ObjectMapperUtil;
 
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.ShardedJedis;
 
 @Component
 @Aspect
 public class CacheAspect {
-	@Autowired
-	private Jedis jedis;
+	//当tomcat启动时,回启动spring容器立即注入
+	//懒加载,可以不注入required = false
+	@Autowired(required = false)
+	private JedisCluster jedis;
 
 	//如果是环绕通知 必须写ProceedingJoinPoint  因为里边有proceed
 	@Around("@annotation(cacheFind)")
