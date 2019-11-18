@@ -19,21 +19,15 @@
 	</properties>
 
 	<dependencies>
-	
-	<!-- swagger-ui -->
-		<!-- <dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>2.9.2</version>
-		</dependency> -->
+
+		<!-- swagger-ui -->
+		<!-- <dependency> <groupId>io.springfox</groupId> <artifactId>springfox-swagger-ui</artifactId> 
+			<version>2.9.2</version> </dependency> -->
 
 		<!--swagger2 -->
-		<!-- <dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>2.9.2</version>
-		</dependency> -->
-	
+		<!-- <dependency> <groupId>io.springfox</groupId> <artifactId>springfox-swagger2</artifactId> 
+			<version>2.9.2</version> </dependency> -->
+
 		<!--springBoot动态的引入springMVC全部的配置 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -130,8 +124,11 @@
 		</dependency>
 
 		<!--引入dubbo配置 -->
-		<!--<dependency> <groupId>com.alibaba.boot</groupId> <artifactId>dubbo-spring-boot-starter</artifactId> 
-			<version>0.2.0</version> </dependency> -->
+		<dependency>
+			<groupId>com.alibaba.boot</groupId>
+			<artifactId>dubbo-spring-boot-starter</artifactId>
+			<version>0.2.0</version>
+		</dependency>
 
 		<!--添加Quartz的支持 -->
 		<dependency>
@@ -143,5 +140,6 @@
 		<module>jt-common</module>
 		<module>jt-manage</module>
 		<module>jt-web</module>
+		<module>jt-sso</module>
 	</modules>
 </project>

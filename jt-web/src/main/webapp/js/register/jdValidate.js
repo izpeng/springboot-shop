@@ -601,13 +601,19 @@ function checkPin(option) {
             	dataType : "jsonp",
             	success : function(data) {
                     checkpin = data.data?"1":"0";
-                    if (!data.data) {
-                        validateSettings.succeed.run(option);
-                        namestate = true;
-                    }else {
-                        validateSettings.error.run(option, "该用户名已占用！");
+                    if(data.status==200){
+                    	 if (!data.data) {
+                             validateSettings.succeed.run(option);
+                             namestate = true;
+                         }else {
+                             validateSettings.error.run(option, "该用户名已占用！");
+                             namestate = false;
+                         }
+                    }else{
+                    	validateSettings.error.run(option, "系统维护中,请稍后重试！骗你的,崩了!");
                         namestate = false;
                     }
+                    
                 }
             });
         } else {

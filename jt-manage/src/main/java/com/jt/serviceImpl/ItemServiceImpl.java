@@ -113,6 +113,12 @@ public class ItemServiceImpl implements ItemService {
 		return itemDescMapper.selectById(itemId);
 	}
 
+	@Override
+	public Item findItemById(Long itemId) {
+		Item selectById = itemMapper.selectById(itemId);
+		return selectById;
+	}
+
 
 
 

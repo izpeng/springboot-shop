@@ -20,6 +20,8 @@ public interface ItemService {
 
 	ItemDesc findItemDescById(Long itemId);
 
+	Item findItemById(Long itemId);
+
 	
 
 
