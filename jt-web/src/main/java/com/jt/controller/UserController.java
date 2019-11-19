@@ -4,6 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jt.pojo.User;
 import com.jt.service.DubboUserService;
+import com.jt.util.CookieUtil;
 import com.jt.util.IPUtil;
 /**
  * 登录注册
@@ -20,12 +22,16 @@ import com.jt.util.IPUtil;
  *
  */
 import com.jt.vo.SysResult;
+
+import redis.clients.jedis.JedisCluster;
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	
 	@Reference(check = false)
 	private DubboUserService dubboUserService;
+	@Autowired
+	private JedisCluster jedis;
 	
 	@RequestMapping("/{moduleName}")
 	public String moduleName(@PathVariable String moduleName) {
@@ -67,7 +73,21 @@ public class UserController {
 		
 	}
 	
+	//http://www.jt.com/user/logout.html
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request,HttpServletResponse response) {
+		Cookie cookie = CookieUtil.getCookie(request, "JT_TICKET");
+		if(cookie==null) {
+			return "redirect:/";
+		}
+		String ticket = cookie.getValue();
+		jedis.del(ticket);
 	
+		CookieUtil.deleteCookie(response, "JT_TICKET", 0, "jt.com", "/");
+		
+		return "redirect:/";
+		
+	}
 	
 	
 	

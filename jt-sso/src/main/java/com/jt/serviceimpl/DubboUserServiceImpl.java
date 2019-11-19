@@ -49,10 +49,16 @@ public class DubboUserServiceImpl implements DubboUserService{
 
 		userDB.setPassword("123456你信吗?");
 		String userJson = ObjectMapperUtil.toJSON(userDB);	
-
+		//防止用户重复登录
+		if(jedis.exists("JT_USERNAME_"+userDB.getUsername())) {
+			String oldTicket = jedis.get("JT_USERNAME_"+userDB.getUsername());
+			jedis.del(oldTicket);
+		}
 		jedis.hset(ticket, "JT_USER", userJson);
 		jedis.hset(ticket, "JT_USER_IP", ipAddr);
 		jedis.expire(ticket, 7*24*3600);
+		
+		jedis.setex("JT_USERNAME_"+userDB.getUsername(),7*24*3600, ticket);
 		return ticket;
 	}
 
