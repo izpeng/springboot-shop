@@ -601,7 +601,10 @@ function checkPin(option) {
             	dataType : "jsonp",
             	success : function(data) {
                     checkpin = data.data?"1":"0";
+                    //true表示已存在 false表示可以使用
+                    //先检验状态码信息 200
                     if(data.status==200){
+                    	//后台运行正常
                     	 if (!data.data) {
                              validateSettings.succeed.run(option);
                              namestate = true;
@@ -610,10 +613,10 @@ function checkPin(option) {
                              namestate = false;
                          }
                     }else{
-                    	validateSettings.error.run(option, "系统维护中,请稍后重试！骗你的,崩了!");
-                        namestate = false;
+                    	//后台运行有问题
+                    	 validateSettings.error.run(option, "系统维护中请稍后~~实际上服务器错了不知道什么时候修好骗你的");
+                         namestate = false;
                     }
-                    
                 }
             });
         } else {

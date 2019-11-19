@@ -21,10 +21,11 @@
 			method:"get",			//请求方式  POST
 			animate:true,			//表示显示折叠端口动画效果
 			checkbox:true,			//表述复选框
-			lines:true,				//表示显示连接线
+			lines:false,				//表示显示连接线
 			dnd:true,				//是否拖拽
 			onClick:function(node){	//添加点击事件
 				
+				alert(node.test);
 				//控制台
 				console.info(node);
 			}

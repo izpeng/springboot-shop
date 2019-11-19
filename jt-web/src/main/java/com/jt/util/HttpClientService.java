@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -22,72 +23,82 @@ import org.springframework.util.StringUtils;
 
 @Service
 public class HttpClientService {
+	
 	@Autowired
 	private CloseableHttpClient httpClient;
 	@Autowired
 	private RequestConfig requestConfig;
-
-	public String doGet(String url,Map<String,String> params,String charset){
-		String result = null;
-		//1.判断字符集编码是否为空 如果为空则给定默认值utf-8
-		if(StringUtils.isEmpty(charset)){
-
+	
+	/**
+	 *    编辑工具API目的简化代码,实现松耦合
+	 *   
+	 *    作用:帮助用户发起http请求,获取正确的结果返回给用户
+	 *    参数设计:	1.用户url地址   2.Map<参数名,参数值>  3.字符编码
+	 * 
+	 * get请求方式:
+	 * 	1.没有参数时: http://www.baidu.com
+	 * 	2.有参数时:     http://www.baidu.com?key1=value1&key2=value2...
+	 * @param url
+	 * @param params
+	 * @param charset
+	 * @return
+	 */
+	public String doGet(String url,Map<String,String> params,String charset) {
+		//1.校验用户是否传递字符编码
+		if(StringUtils.isEmpty(charset)) {
+			
 			charset = "UTF-8";
 		}
-		//2.判断用户是否需要传递参数
-		if(params != null){
-			try {
-				URIBuilder uriBuilder = new URIBuilder(url);
-				for (Map.Entry<String,String> entry : params.entrySet()) {
-
-					uriBuilder.addParameter(entry.getKey(), entry.getValue());
-				}
-				//url?id=1&name=tom
-				url = uriBuilder.build().toString();
-			} catch (Exception e) {
-				e.printStackTrace();
+		
+		//2.封装URL地址
+		//  http://www.baidu.com?key1=value1&key2=value2&...
+		if(params != null) {
+			url = url + "?";
+			//map遍历
+			for (Map.Entry<String,String> entry : params.entrySet()) {
+				String key = entry.getKey();
+				String value = entry.getValue();
+				url += key+"="+value+"&";
 			}
+			//截去多余的&
+			url = url.substring(0, url.length()-1);
 		}
-
-		//3.定义参数提交对象
-		HttpGet get = new HttpGet(url);
-
-		//4.为请求设定超时时间
-		get.setConfig(requestConfig);
-
-		//5.通过httpClient发送请求
+		
+		//3.定义httpGet请求对象
+		HttpGet httpGet = new HttpGet(url);
+		//设定请求的超时时间
+		httpGet.setConfig(requestConfig);
+		
+		//定义返回值数据
+		String result = null;
 		try {
-			CloseableHttpResponse response = 
-					httpClient.execute(get);
-			if(response.getStatusLine().getStatusCode() == 200){
-				//表示程序调用成功
-				result = EntityUtils.toString(response.getEntity(),charset);
-			}else{
-				System.out.println("调用异常:状态信息:"+response.getStatusLine().getStatusCode());
-				throw new RuntimeException();
+			CloseableHttpResponse response = httpClient.execute(httpGet);
+			if(response.getStatusLine().getStatusCode() == 200) {
+				//表示请求正确
+				HttpEntity entity = response.getEntity();
+				result = EntityUtils.toString(entity,charset);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-
+		
 		return result;
 	}
-
-	public String doGet(String url){
-
+	
+	//重载方法
+	public String doGet(String url) {
+		
 		return doGet(url, null, null);
 	}
-
-	public String doGet(String url,Map<String,String> params){
-
+	
+	public String doGet(String url,Map<String,String> params) {
+		
 		return doGet(url, params, null);
 	}
-
-	public String doGet(String url,String charset){
-
-		return doGet(url, null, charset);
-	}
-
+	
+	
+	
 	//实现httpClient POST提交
 	public String doPost(String url,Map<String,String> params,String charset){
 		String result = null;

@@ -1,6 +1,6 @@
 package com.jt.service;
 
-
+import java.io.IOException;
 
 import com.jt.pojo.Item;
 import com.jt.pojo.ItemDesc;
@@ -21,14 +21,5 @@ public interface ItemService {
 	ItemDesc findItemDescById(Long itemId);
 
 	Item findItemById(Long itemId);
-
 	
-
-
-
-
-	
-
-
-
 }

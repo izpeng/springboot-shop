@@ -2,63 +2,80 @@ package com.jt.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.jt.pojo.Cart;
+import com.jt.pojo.User;
 import com.jt.service.DubboCartService;
+import com.jt.util.UserThreadLocal;
 import com.jt.vo.SysResult;
-//http://www.jt.com/cart/show.html
-@RequestMapping("/cart")
-@Controller
-public class CartController {
-	@Reference(check = false)
-	private DubboCartService dubboCartService;
 
+//jt-web中购物车业务 消费者
+@Controller
+@RequestMapping("/cart")
+public class CartController {
+	
+	@Reference(check = false) //提供者可以懒加载
+	private DubboCartService cartService;
+	
+	/**
+	 * 查询购物车记录,在页面中展现数据
+	 * 页面取值:${cartList}
+	 * @return
+	 */
 	@RequestMapping("/show")
-	public String show(Model model) {
-		Long userId = 7L;
-		List<Cart> cartList = dubboCartService.findCartListByUserId(userId);
+	public String show(Model model,HttpServletRequest request) {
+		
+		//1.获取当前用户信息 userId
+		//User user = (User) request.getAttribute("JT_USER");
+		//Long userId = user.getId();
+		Long userId = UserThreadLocal.getUser().getId();
+		//2.查询数据
+		List<Cart> cartList = 
+			cartService.findCartListByUserId(userId);
 		model.addAttribute("cartList", cartList);
 		return "cart";
 	}
-
-	//	http://www.jt.com/cart/update/num/562379/2
-	@RequestMapping("update/num/{itemId}/{num}")
+	
+	
+	@RequestMapping("/update/num/{itemId}/{num}")
 	@ResponseBody
 	public SysResult updateNum(Cart cart) {
-		Long userId = 7L;
+		Long userId = UserThreadLocal.getUser().getId();
 		cart.setUserId(userId);
-		dubboCartService.updataCartNum(cart);
-		return  SysResult.success();
-
-	}
-
-	//	http://www.jt.com/cart/delete/562379.html
-	@RequestMapping("/delete/{itemId}")
-	public String delete(Cart cart) {
-		Long userId = 7L;
-		cart.setUserId(userId);
-		
-		dubboCartService.delete(cart);
-		return "redirect:/cart/show";
-
+		cartService.updateCartNum(cart);
+		return SysResult.success();
 	}
 	
-	//http://www.jt.com/cart/add/562379.html
-	@RequestMapping("/add/{itemId}")
-	public String addCart(Cart cart) {
-		Long userId = 7L;
+	/**
+	 * 实现购物车删除
+	 * @param cart
+	 * @return
+	 */
+	@RequestMapping("/delete/{itemId}")
+	public String deleteCart(Cart cart) {
+		Long userId = UserThreadLocal.getUser().getId();
 		cart.setUserId(userId);
+		cartService.deleteCart(cart);
 		
-		dubboCartService.addCart(cart);
-//		/http://www.jt.com/items/562379.html
-		return "redirect:/items/"+cart.getItemId();
-
+		//伪静态实现思想
+		return "redirect:/cart/show.html";
 	}
-
+	
+	@RequestMapping("/add/{itemId}")
+	public String insertCart(Cart cart) {
+		Long userId = UserThreadLocal.getUser().getId();
+		cart.setUserId(userId);
+		cartService.insertCart(cart);
+		return "redirect:/cart/show.html";
+	}
+	
+	
 }

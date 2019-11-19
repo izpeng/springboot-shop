@@ -22,7 +22,8 @@
 	        </tr>
 	        <tr>
 	            <td>商品价格:</td>
-	            <td><input class="easyui-numberbox" type="text" name="priceView" data-options="min:1,max:99999999,precision:2,required:true" />
+	            <td>
+	            	<input class="easyui-numberbox" type="text" name="priceView" data-options="min:1,max:99999999,precision:2,required:true" />
 	            	<input type="hidden" name="price"/>
 	            </td>
 	        </tr>
@@ -80,6 +81,8 @@
 			return ;
 		}
 		//转化价格单位，将元转化为分
+		//获取元素值  $("xxx").val();
+		//为元素赋值  $("XXX").val(100);   '1'*1=11
 		$("#itemAddForm [name=price]").val(eval($("#itemAddForm [name=priceView]").val()) * 100);
 		itemAddEditor.sync();//将输入的内容同步到多行文本中
 		

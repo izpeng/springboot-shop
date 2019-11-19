@@ -117,7 +117,7 @@ function reg() {
 			contentType : "application/x-www-form-urlencoded; charset=utf-8",
 			data : {password:_password,username:_username,phone:_phone},
 			dataType : 'json',
-			success : function(result) {
+			success : function(result) { //sysResult VO
 				if(result.status == "200"){
 					// 注册成功，去登录页
 					showMessage('注册成功，请登录！');

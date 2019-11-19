@@ -2,7 +2,6 @@
 	{
 		"id":"1",
 		"text":"英雄联盟",
-		"iconCls":"icon-save",
 		"children":[
 			{
 				"id":"4",
@@ -23,7 +22,7 @@
 				"text":"孙悟空"
 			}
 		],
-		"state":"open"
+		"state":"closed"
 	},{
 		"id":"2",
 		"text":"王者荣耀",

@@ -42,8 +42,9 @@ var TT = KindEditorUtil = {		//相当于java中定义的工具类，里面提供
 	/**
 	 * 远程中心:查看common.js/43行代码,如何格式化价格??
 	 */
-	// 格式化价格
+	// 格式化价格  value是数据库数据  
 	formatPrice : function(val,row){
+		
 		return (val/100).toFixed(2);
 	},
 	// 格式化商品的状态
@@ -60,7 +61,7 @@ var TT = KindEditorUtil = {		//相当于java中定义的工具类，里面提供
     findItemCatName : function(val,row){
     	var name;
     	$.ajax({
-    		type:"post",
+    		type:"get",
     		url:"/item/cat/queryItemName",
     		data:{itemCatId:val},
     		cache:true,    //缓存

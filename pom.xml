@@ -1,13 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.jt</groupId>
-	<artifactId>jt</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
-
-	<parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.jt</groupId>
+  <artifactId>jt</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.9.RELEASE</version>
@@ -19,27 +17,18 @@
 	</properties>
 
 	<dependencies>
-
-		<!-- swagger-ui -->
-		<!-- <dependency> <groupId>io.springfox</groupId> <artifactId>springfox-swagger-ui</artifactId> 
-			<version>2.9.2</version> </dependency> -->
-
-		<!--swagger2 -->
-		<!-- <dependency> <groupId>io.springfox</groupId> <artifactId>springfox-swagger2</artifactId> 
-			<version>2.9.2</version> </dependency> -->
-
 		<!--springBoot动态的引入springMVC全部的配置 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		
 		<!-- 引入aop支持 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
-
+		
 		<!--引入测试类 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -122,20 +111,25 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 		</dependency>
-
+		
 		<!--引入dubbo配置 -->
 		<dependency>
 			<groupId>com.alibaba.boot</groupId>
 			<artifactId>dubbo-spring-boot-starter</artifactId>
 			<version>0.2.0</version>
 		</dependency>
-
+		
 		<!--添加Quartz的支持 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-quartz</artifactId>
-		</dependency>
+		</dependency>	
 	</dependencies>
+	
+	
+	<!--父级项目中 不要添加插件  -->
+	
+	<!--当前项目的子模块信息  -->
 	<modules>
 		<module>jt-common</module>
 		<module>jt-manage</module>
@@ -144,4 +138,10 @@
 		<module>jt-cart</module>
 		<module>jt-order</module>
 	</modules>
+	
+	
+	
+	
+	
+	
 </project>

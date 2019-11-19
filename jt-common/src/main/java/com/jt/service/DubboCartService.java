@@ -8,12 +8,10 @@ public interface DubboCartService {
 
 	List<Cart> findCartListByUserId(Long userId);
 
-	void updataCartNum(Cart cart);
+	void updateCartNum(Cart cart);
 
-	void delete(Cart cart);
+	void deleteCart(Cart cart);
 
-	void addCart(Cart cart);
-
-
+	void insertCart(Cart cart);
 
 }

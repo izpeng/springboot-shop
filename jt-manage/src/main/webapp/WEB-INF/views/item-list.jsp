@@ -65,6 +65,7 @@
         			// 加载商品描述
         			//_data = SysResult.ok(itemDesc)
         			$.getJSON('/item/query/item/desc/'+data.id,function(_data){
+        			//{status:200,msg:'',data:{itemId:"1123123",itemDesc:"html代码"}}
         				if(_data.status == 200){
         					//UM.getEditor('itemeEditDescEditor').setContent(_data.data.itemDesc, false);
         					itemEditEditor.html(_data.data.itemDesc);
@@ -144,6 +145,7 @@
         		return ;
         	}
         	$.messager.confirm('确认','确定下架ID为 '+ids+' 的商品吗？',function(r){
+				//true/false 非空判断
         	    if (r){
         	    	var params = {"ids":ids};
                 	$.post("/item/instock",params, function(data){

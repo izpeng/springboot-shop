@@ -1,22 +1,18 @@
 package com.jt.vo;
 
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-@Accessors(chain = true)
+//[{id:"编号",text:"文本信息",state:"open/closed"}]
 @Data
-@AllArgsConstructor
+@Accessors(chain = true)
 @NoArgsConstructor
-public class EasyUITree implements Serializable{
-
-	private static final long serialVersionUID = -1665037633243881859L;
-	private Long id;
-	private String text;
-	private String state;
-
-
+@AllArgsConstructor
+public class EasyUITree {
+	private Long id;		//节点ID
+	private String text;	//文本信息
+	private String state;	//open/closed
+	
 }

@@ -1,8 +1,9 @@
 var TT = JT = {
 	checkLogin : function(){
+		//获取指定的Cookie数据
 		var _ticket = $.cookie("JT_TICKET");
 		if(!_ticket){
-			return ;
+			return ; //js方法结束
 		}
 		//当dataType类型为jsonp时，jQuery就会自动在请求链接上增加一个callback的参数
 		$.ajax({

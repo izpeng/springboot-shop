@@ -26,14 +26,23 @@ logging:
   level: 
     com.jt.mapper: debug
     
-#dubbo
+#dubbo配置文件    
 dubbo:
   scan:
-    basePackages: com.jt
+    basePackages: com.jt   #定义包扫描
   application:
-    name: provider-user
+    name: provider-user    #定义服务名称 必须添加
   registry:
-    address: zookeeper://192.168.161.129:2181?backup=192.168.161.129:2182,192.168.161.129:2183
-  protocol:
-    name: dubbo
-    port: 20880
+    address: zookeeper://192.168.175.129:2181?backup=192.168.175.129:2182,192.168.175.129:2183
+  protocol:    #协议
+    name: dubbo #使用dubbo默认协议
+    port: 20880  #端口号唯一    
+    
+    
+    
+    
+    
+    
+    
+    
+    
